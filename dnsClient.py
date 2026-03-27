@@ -1,3 +1,5 @@
+#dnsClient.py
+
 import argparse
 import socket
 import struct
@@ -142,7 +144,7 @@ def dns_query(type, name, server):
 		name = '.'.join(name_parts)
 
 		# Parse the type, class, TTL, and RDLENGTH
-		type, cls, ttl, rdlength = struct.unpack('!HHIH', response_answer[offset:offset+????]) # What is the offset value in bytes? Remember 'H' represent 2 bytes, and 'I' represents 4 bytes, we declared '!HHIH'. 
+		type, cls, ttl, rdlength = struct.unpack('!HHIH', response_answer[offset:offset+8]) # What is the offset value in bytes? Remember 'H' represent 2 bytes, and 'I' represents 4 bytes, we declared '!HHIH'. 
 		
 		offset += 10 # Same value as just calculated
 
@@ -150,16 +152,16 @@ def dns_query(type, name, server):
 		rdata = response_answer[offset:offset+rdlength]
 		offset += rdlength
 
-		if type == 1 # Lookup Type value
+		if type == 1: # Lookup Type value
 			# A record (IPv4 address)
 			ipv4 = socket.inet_ntop(socket.AF_INET, rdata)
-			print(f'{name} has IPv4 address {ipv4}')\
+			print(f'{name} has IPv4 address {ipv4}')
 			return ipv4
-		elif type == 28 # Lookup Type value
+		elif type == 28: # Lookup Type value
 			# AAAA record (IPv6 address)
 			ipv6 = socket.inet_ntop(socket.AF_INET6, rdata)
 			print(f'{name} has IPv6 address {ipv6}')
-			return ipv6				
+			return ipv6 		
 
 def parse_name(data, offset):
 	name_parts = []
