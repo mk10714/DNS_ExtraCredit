@@ -144,7 +144,7 @@ def dns_query(type, name, server):
 		name = '.'.join(name_parts)
 
 		# Parse the type, class, TTL, and RDLENGTH
-		type, cls, ttl, rdlength = struct.unpack('!HHIH', response_answer[offset:offset+8]) # What is the offset value in bytes? Remember 'H' represent 2 bytes, and 'I' represents 4 bytes, we declared '!HHIH'. 
+		type, cls, ttl, rdlength = struct.unpack('!HHIH', response_answer[offset:offset+10]) # What is the offset value in bytes? Remember 'H' represent 2 bytes, and 'I' represents 4 bytes, we declared '!HHIH'. 
 		
 		offset += 10 # Same value as just calculated
 
